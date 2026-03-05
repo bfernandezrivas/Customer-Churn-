@@ -31,37 +31,35 @@ This project develops an end-to-end predictive churn model designed to identify 
 
 
 
-# Business Impact
+## Business Impact
 
 The model allows the business to move from reactive churn management to proactive retention intervention.
 
-# Key operational benefits include:
+ Key operational benefits include:
 	•	Retention teams can focus on customers genuinely at risk, reducing wasted outreach effort.
 	•	Fewer false alerts allow retention campaigns to operate more efficiently and with higher ROI.
 	•	Clear feature relationships (such as contract type, tenure, monthly charges, and add-on services) provide actionable insight for business decision-makers.
 
 
 
-# Technical Approach
+### Technical Approach
 
-# Data Preparation
+### Data Preparation
 
-# Data Cleaning
+### Data Cleaning
 
-# The project uses the Telco Customer Churn dataset.
+ The project uses the Telco Customer Churn dataset.
 	•	11 missing values in the TotalCharges field were validated and corrected using tenure consistency checks.
 	•	Customers with 0-month tenure were assigned zero total charges, reflecting new customers without billable history.
 
-# Feature Engineering
+ Feature Engineering
 	•	The identifier column was removed to avoid leakage.
 	•	Categorical service and contract variables were converted using one-hot encoding.
 	•	Numerical variables such as MonthlyCharges, TotalCharges, and tenure were standardised to stabilise model training.
 
 
 
-# Handling Class Imbalance
-
-# Customer churn datasets are naturally imbalanced.
+### Customer churn datasets are naturally imbalanced.
 
 Original distribution:
 	•	~73% non-churn customers
@@ -74,9 +72,9 @@ This produced a balanced training dataset, improving the model’s ability to de
 
 
 
-# Modelling Strategy
+## Modelling Strategy
 
-# Evaluation Metrics
+### Evaluation Metrics
 
 Because of class imbalance, accuracy was not used as the primary metric.
 
@@ -98,7 +96,7 @@ Measures overall ranking performance across decision thresholds.
 
 # Model Comparison
 
-## Model performance summary:
+### Model performance summary:
 
 | Model                         | Precision | Recall | F1   | MCC   | ROC‑AUC | PR‑AUC |
 | ----------------------------- | --------- | ------ | ---- | ----- | ------- | ------ |
@@ -107,7 +105,7 @@ Measures overall ranking performance across decision thresholds.
 | Random Forest (tuned)         | 0.68      | 0.51   | 0.58 | 0.47  | 0.845   | 0.660  |
 | XGBoost (tuned)               | 0.51      | 0.79   | 0.62 | 0.46  | 0.846   | 0.665  |
 
-# Key observations:
+ Key observations:
 	•	Vanilla Logistic Regression captures most churners but generates too many false alerts.
 	•	Logistic Regression with SMOTE produces the best balance between precision and recall.
 	•	Random Forest and XGBoost show strong ranking performance but introduce additional model complexity.
@@ -129,34 +127,34 @@ Tree-based models remain potential candidates for future iterations if maximum p
 
 # Key Business Insights
 
-# Contract Risk
+## Contract Risk
 
 Customers on month-to-month contracts exhibit significantly higher churn risk compared with customers on one- or two-year contracts.
 
-## Recommendation:
+### Recommendation:
 Introduce targeted incentives encouraging migration toward longer-term contracts, such as loyalty rewards or bundled service discounts.
 
 
 
-# Price Sensitivity
+## Price Sensitivity
 
 Customers who churn tend to have higher monthly charges, often around £15 more per month in this dataset.
 
-## Recommendation:
+### Recommendation:
 Review pricing strategies and perceived value in high-charge segments, and test targeted plan optimisation rather than broad price reductions.
 
 
 
-# Critical Risk Window
+## Critical Risk Window
 
 The first 12 months of tenure represent the highest churn risk period, particularly among fibre-optic and month-to-month customers.
 
-## Recommendation:
+### Recommendation:
 Strengthen onboarding and early-lifecycle engagement strategies, including proactive outreach and service guidance during the first year.
 
 
 
-# Operational Impact
+## Operational Impact
 
 Metric	Baseline Model	Final Model
 | Metric          | Baseline Model (Vanilla LogReg) | Final Model (LogReg + SMOTE) |
