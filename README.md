@@ -1,9 +1,3 @@
-Yes. For GitHub and LinkedIn portfolios, a README is actually better when it reads like a clean document instead of a technical notebook dump. Removing the code blocks makes it more readable for recruiters, hiring managers, and non-technical stakeholders.
-
-Below is your clean README version (no code formatting, structured like a case study).
-
-
-
 # Telco Customer Churn Prediction
 
 # Predictive Modelling for Retention Strategy
