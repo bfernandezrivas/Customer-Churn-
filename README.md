@@ -1,177 +1,195 @@
+Yes. For GitHub and LinkedIn portfolios, a README is actually better when it reads like a clean document instead of a technical notebook dump. Removing the code blocks makes it more readable for recruiters, hiring managers, and non-technical stakeholders.
 
-# Telco Customer Churn Prediction
+Below is your clean README version (no code formatting, structured like a case study).
+
+⸻
+
+Telco Customer Churn Prediction
+
 Predictive Modelling for Retention Strategy
 
 Authors: Reynold Takura Choruma, Blanca Fernandez & Marisa Oliveira
-Project Type: Individual – Data Analytics / Machine Learning  
+Project Type: Individual – Data Analytics / Machine Learning
 Year: 2026
 
----
+⸻
 
-## Project Overview
+Project Overview
 
-A major telecom provider was experiencing a churn rate of around 26–27%, with the highest attrition among high‑value fibre‑optic subscribers. This threatened recurring revenue and increased customer acquisition costs.
+A major telecom provider was experiencing a churn rate of approximately 26–27%, with the highest attrition occurring among high-value fibre-optic subscribers. This posed a risk to recurring revenue and increased the cost of acquiring replacement customers.
 
-This project develops an end‑to‑end predictive churn model to identify at‑risk customers early, enabling proactive retention strategies and more efficient allocation of business resources.
+This project develops an end-to-end predictive churn model designed to identify at-risk customers early. The objective is to enable proactive retention strategies and allow the business to allocate retention resources more efficiently.
 
----
+⸻
 
-## Key Outcomes (Final Modelling Results)
+Key Outcomes (Final Modelling Results)
+	•	Identified approximately 69% of churn-risk customers using the selected model (Recall ≈ 0.69).
+	•	Reduced false retention alerts from 315 to 168 per cycle, a reduction of 147 alerts (~47%).
+	•	Improved churn detection precision from 0.49 to 0.61, representing roughly a 24% relative improvement.
+	•	Achieved PR-AUC ≈ 0.652 and MCC ≈ 0.51 for the final model.
+	•	Demonstrated that tree-based models (Random Forest and XGBoost) can achieve slightly higher ROC-AUC and PR-AUC, but with reduced interpretability compared to logistic regression.
 
-- Identified **≈69% of churn‑risk customers** with the chosen model (Recall ≈ 0.69).  
-- Reduced **false retention alerts from 315 to 168** per cycle (**–147 alerts, ~47% reduction**).  
-- Improved churn detection **precision from 0.49 to 0.61** (~24% relative improvement).  
-- Achieved **PR‑AUC ≈ 0.652** and **MCC ≈ 0.51** for the final model, vs. a weaker baseline logistic model.  
-- Showed that **tree‑based models (Random Forest, XGBoost)** achieve slightly higher ROC/PR‑AUC, but with less interpretability than the selected logistic model.
+⸻
 
----
+Business Impact
 
-## Business Impact
+The model allows the business to move from reactive churn management to proactive retention intervention.
 
-- Retention teams can focus on genuinely at‑risk customers, reducing wasted effort and improving campaign ROI.  
-- Fewer false alerts with still‑high recall means **better protection of recurring revenue** without overloading operations.  
-- Clear feature effects (contract type, tenure, monthly charges, services) help business stakeholders design targeted retention strategies.
+Key operational benefits include:
+	•	Retention teams can focus on customers genuinely at risk, reducing wasted outreach effort.
+	•	Fewer false alerts allow retention campaigns to operate more efficiently and with higher ROI.
+	•	Clear feature relationships (such as contract type, tenure, monthly charges, and add-on services) provide actionable insight for business decision-makers.
 
----
+⸻
 
-## Technical Approach
+Technical Approach
 
-### 1. Data Preparation
+Data Preparation
 
-**Data cleaning**
+Data Cleaning
 
-- Worked from the Kaggle Telco Customer Churn dataset (`WA_Fn-UseC_-Telco-Customer-Churn.csv`).  
-- Validated and resolved 11 missing `TotalCharges` values using tenure consistency checks.  
-- Assigned zero total charges to customers with 0‑month tenure (new customers without billable history).  
+The project uses the Telco Customer Churn dataset.
+	•	11 missing values in the TotalCharges field were validated and corrected using tenure consistency checks.
+	•	Customers with 0-month tenure were assigned zero total charges, reflecting new customers without billable history.
 
-**Feature engineering**
+Feature Engineering
+	•	The identifier column was removed to avoid leakage.
+	•	Categorical service and contract variables were converted using one-hot encoding.
+	•	Numerical variables such as MonthlyCharges, TotalCharges, and tenure were standardised to stabilise model training.
 
-- Dropped identifier column `customerID`.  
-- Applied one‑hot encoding to categorical service and contract features using `pd.get_dummies(drop_first=True)`.  
-- Standardised numerical variables (`MonthlyCharges`, `TotalCharges`, `tenure`, etc.) with `StandardScaler` for models that require scaling.
+⸻
 
-### 2. Handling Class Imbalance
+Handling Class Imbalance
 
-Class distribution before resampling (train set):
+Customer churn datasets are naturally imbalanced.
 
-- ~73% non‑churn  
-- ~27% churn  
+Original distribution:
+	•	~73% non-churn customers
+	•	~27% churn customers
 
 To address this imbalance:
+	•	SMOTE (Synthetic Minority Oversampling Technique) was applied to the training dataset only, ensuring the test set remained realistic.
 
-- Implemented **SMOTE (Synthetic Minority Oversampling Technique)** on the training dataset only, keeping the test set untouched and realistic.  
-- After SMOTE, the training data is **balanced** (churn vs non‑churn) for the models that use it.
+This produced a balanced training dataset, improving the model’s ability to detect churn events.
 
----
+⸻
 
-## Modelling Strategy
+Modelling Strategy
 
-### 3. Evaluation Metrics
+Evaluation Metrics
 
-Because of class imbalance, **accuracy** was not used as a primary metric. Instead:
+Because of class imbalance, accuracy was not used as the primary metric.
 
-- **PR‑AUC (Precision–Recall AUC)** – how well the model ranks true churners ahead of non‑churners.  
-- **MCC (Matthews Correlation Coefficient)** – balanced measure of overall prediction quality.  
-- **Precision, Recall, F1 score** – to understand operational trade‑offs between catching more churners and limiting false alerts.  
-- **ROC AUC** – overall ranking quality across thresholds.
+Instead, models were evaluated using:
 
-All metrics are computed via a single helper:
+PR-AUC (Precision–Recall AUC)
+Measures how well the model ranks true churners ahead of non-churners.
 
-```python
-def get_metrics(model, X, y):
-    # returns (precision, recall, f1, mcc, roc_auc, pr_auc)
-4. Models and Results
-4.1 Comparison Table
-| Model                         | Precision | Recall | F1   | MCC   | ROC‑AUC | PR‑AUC |
-| ----------------------------- | --------- | ------ | ---- | ----- | ------- | ------ |
-| Logistic Regression (Vanilla) | 0.49      | 0.82   | 0.61 | ~0.40 | ~0.79   | ~0.57  |
-| Logistic Regression (SMOTE)   | 0.61      | 0.69   | 0.65 | 0.51  | 0.80    | 0.652  |
-| Random Forest (tuned)         | 0.68      | 0.51   | 0.58 | 0.47  | 0.845   | 0.660  |
-| XGBoost (tuned)               | 0.51      | 0.79   | 0.62 | 0.46  | 0.846   | 0.665  |
+MCC (Matthews Correlation Coefficient)
+Provides a balanced measure of prediction quality across all confusion matrix components.
 
-(Exact values as printed in the notebook; table summarises the key pattern.)
+Precision, Recall, and F1 Score
+Used to evaluate the operational trade-off between identifying churners and avoiding excessive false alerts.
 
-LogReg (vanilla): very high recall but low precision → many false positives.
+ROC-AUC
+Measures overall ranking performance across decision thresholds.
 
-LogReg (SMOTE): better balance, higher MCC and PR‑AUC; sharp drop in false positives.
+⸻
 
-Random Forest / XGBoost: strongest ROC/PR‑AUC, but with more complexity and less interpretability.
+Model Comparison
 
-# Final Model Selection – Logistic Regression + SMOTE
-Although XGBoost achieved the highest PR‑AUC (~0.665), the final recommended model is Logistic Regression with SMOTE because:
+Model performance summary:
 
-It delivers strong, balanced performance across Precision (0.61), Recall (0.69), F1 (0.65), PR‑AUC (~0.652), and MCC (~0.51).
+Model	Precision	Recall	F1	MCC	ROC-AUC	PR-AUC
+Logistic Regression (Vanilla)	0.49	0.82	0.61	~0.40	~0.79	~0.57
+Logistic Regression (SMOTE)	0.61	0.69	0.65	0.51	0.80	0.652
+Random Forest (Tuned)	0.68	0.51	0.58	0.47	0.845	0.660
+XGBoost (Tuned)	0.51	0.79	0.62	0.46	0.846	0.665
 
-Coefficients are interpretable, enabling a direct link between features and churn risk (e.g., contract type, tenure, charges, add‑on services).
+Key observations:
+	•	Vanilla Logistic Regression captures most churners but generates too many false alerts.
+	•	Logistic Regression with SMOTE produces the best balance between precision and recall.
+	•	Random Forest and XGBoost show strong ranking performance but introduce additional model complexity.
 
-Behaviour is stable, simple to retrain, and straightforward to deploy as an initial production model (standard scaler + logistic regression).
+⸻
 
-XGBoost is retained as a secondary, higher‑complexity model for future iterations if the business prioritises maximum PR‑AUC and can accept more complexity.
----
+Final Model Selection
 
-## Recommendations
+The final recommended model is Logistic Regression with SMOTE.
 
-Based on the modelling results and churn patterns:
+Although XGBoost achieved slightly higher PR-AUC, Logistic Regression was selected because:
+	•	It provides balanced performance across all metrics.
+	•	Model coefficients remain interpretable, allowing business stakeholders to understand key churn drivers.
+	•	The model is stable, transparent, and easy to deploy.
 
-1. **Contract strategy**
-   - Prioritise moving high‑risk month‑to‑month customers onto 1–2 year contracts via targeted incentives (discounted bundles, loyalty rewards, auto‑renew offers).
-   - Use churn scores to focus these offers on customers in the top risk deciles.
+Tree-based models remain potential candidates for future iterations if maximum predictive performance becomes the primary objective.
 
-2. **Pricing & offer design**
-   - Monitor high‑charge customers (e.g. fibre‑optic with high monthly charges) for early signs of churn.
-   - Test targeted plan optimisation or limited, data‑driven discounts for high‑risk, high‑margin segments instead of broad price cuts.
-
-3. **Early‑tenure engagement**
-   - Treat the first 0–12 months as a **critical risk window**.
-   - Trigger proactive outreach (welcome calls/emails, usage tips, service check‑ins) for new customers flagged by the churn model.
-
-4. **Retention operations**
-   - Use the Logistic Regression + SMOTE model as the primary scoring engine.
-   - Set an operating threshold that balances recall and false positives, aligned with team capacity (e.g. target top X% highest‑risk customers per cycle).
-
+⸻
 
 Key Business Insights
-1️⃣ Contract Risk
 
-Month‑to‑month customers show much higher churn risk than one‑ or two‑year contracts.
-👉 Action: design incentives for contract upgrades (discounted bundles, loyalty rewards, auto‑renew offers).
+Contract Risk
 
-2️⃣ Price Sensitivity
+Customers on month-to-month contracts exhibit significantly higher churn risk compared with customers on one- or two-year contracts.
 
-Churned customers typically pay higher median monthly charges (around £15 more per month in this dataset).
-👉 Action: review pricing and value perception for high‑charge segments; consider targeted discounts or plan optimisation.
+Recommendation:
+Introduce targeted incentives encouraging migration toward longer-term contracts, such as loyalty rewards or bundled service discounts.
 
-3️⃣ Critical Risk Window
+⸻
 
-The first 0–12 months of tenure show the highest attrition, especially for month‑to‑month and fibre‑optic customers.
-👉 Action: strengthen onboarding, early‑life engagement, and proactive outreach in the first year.
+Price Sensitivity
 
-Operational Impact (Baseline vs Final Model)
-| Metric          | Baseline Model (Vanilla LogReg) | Final Model (LogReg + SMOTE) |
-| --------------- | ------------------------------- | ---------------------------- |
-| False Positives | 315                             | 168                          |
-| Precision       | 0.49                            | 0.61                         |
-| Recall          | 0.82                            | 0.69                         |
-| MCC             | ~0.40                           | 0.51                         |
-Retention teams receive 147 fewer false alerts per scoring cycle, while still capturing the majority of true churners. This improves efficiency, reduces “alert fatigue”, and focuses effort on the customers most likely to churn.
+Customers who churn tend to have higher monthly charges, often around £15 more per month in this dataset.
+
+Recommendation:
+Review pricing strategies and perceived value in high-charge segments, and test targeted plan optimisation rather than broad price reductions.
+
+⸻
+
+Critical Risk Window
+
+The first 12 months of tenure represent the highest churn risk period, particularly among fibre-optic and month-to-month customers.
+
+Recommendation:
+Strengthen onboarding and early-lifecycle engagement strategies, including proactive outreach and service guidance during the first year.
+
+⸻
+
+Operational Impact
+
+Metric	Baseline Model	Final Model
+False Positives	315	168
+Precision	0.49	0.61
+Recall	0.82	0.69
+MCC	~0.40	0.51
+
+The final model reduces 147 false alerts per scoring cycle while still identifying the majority of churn-risk customers.
+
+This improves operational efficiency and helps retention teams focus on the customers most likely to churn.
+
+⸻
+
 Project Structure
-.
-├── 01_eda_telco_churn.ipynb        # EDA, churn patterns, data cleaning decisions
-├── 02_modeling_telco_churn.ipynb   # Preprocessing, SMOTE, models, evaluation, selection
-├── WA_Fn-UseC_-Telco-Customer-Churn.csv
-└── README.md
+
+Project files include:
+	•	Exploratory data analysis notebook
+	•	Modelling and evaluation notebook
+	•	Telco churn dataset
+	•	Documentation (README)
+
+⸻
+
 Tools & Technologies
+
 Python
-
-Pandas, NumPy
-
-Scikit‑Learn
-
-imbalanced‑learn (SMOTE)
-
+Pandas
+NumPy
+Scikit-Learn
+imbalanced-learn (SMOTE)
 XGBoost
-
-Matplotlib, Seaborn
-
+Matplotlib
+Seaborn
 Jupyter Notebook
+
+⸻
 
