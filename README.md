@@ -2,17 +2,17 @@ Yes. For GitHub and LinkedIn portfolios, a README is actually better when it rea
 
 Below is your clean README version (no code formatting, structured like a case study).
 
-⸻
+
 
 Telco Customer Churn Prediction
 
 Predictive Modelling for Retention Strategy
 
 Authors: Reynold Takura Choruma, Blanca Fernandez & Marisa Oliveira
-Project Type: Individual – Data Analytics / Machine Learning
+Project Type: Group – Data Analytics / Machine Learning
 Year: 2026
 
-⸻
+
 
 Project Overview
 
@@ -20,7 +20,7 @@ A major telecom provider was experiencing a churn rate of approximately 26–27%
 
 This project develops an end-to-end predictive churn model designed to identify at-risk customers early. The objective is to enable proactive retention strategies and allow the business to allocate retention resources more efficiently.
 
-⸻
+
 
 Key Outcomes (Final Modelling Results)
 	•	Identified approximately 69% of churn-risk customers using the selected model (Recall ≈ 0.69).
@@ -29,7 +29,7 @@ Key Outcomes (Final Modelling Results)
 	•	Achieved PR-AUC ≈ 0.652 and MCC ≈ 0.51 for the final model.
 	•	Demonstrated that tree-based models (Random Forest and XGBoost) can achieve slightly higher ROC-AUC and PR-AUC, but with reduced interpretability compared to logistic regression.
 
-⸻
+
 
 Business Impact
 
@@ -40,7 +40,7 @@ Key operational benefits include:
 	•	Fewer false alerts allow retention campaigns to operate more efficiently and with higher ROI.
 	•	Clear feature relationships (such as contract type, tenure, monthly charges, and add-on services) provide actionable insight for business decision-makers.
 
-⸻
+
 
 Technical Approach
 
@@ -57,7 +57,7 @@ Feature Engineering
 	•	Categorical service and contract variables were converted using one-hot encoding.
 	•	Numerical variables such as MonthlyCharges, TotalCharges, and tenure were standardised to stabilise model training.
 
-⸻
+
 
 Handling Class Imbalance
 
@@ -72,7 +72,7 @@ To address this imbalance:
 
 This produced a balanced training dataset, improving the model’s ability to detect churn events.
 
-⸻
+
 
 Modelling Strategy
 
@@ -94,7 +94,7 @@ Used to evaluate the operational trade-off between identifying churners and avoi
 ROC-AUC
 Measures overall ranking performance across decision thresholds.
 
-⸻
+
 
 Model Comparison
 
@@ -112,7 +112,7 @@ Key observations:
 	•	Logistic Regression with SMOTE produces the best balance between precision and recall.
 	•	Random Forest and XGBoost show strong ranking performance but introduce additional model complexity.
 
-⸻
+
 
 Final Model Selection
 
@@ -125,7 +125,7 @@ Although XGBoost achieved slightly higher PR-AUC, Logistic Regression was select
 
 Tree-based models remain potential candidates for future iterations if maximum predictive performance becomes the primary objective.
 
-⸻
+
 
 Key Business Insights
 
@@ -136,7 +136,7 @@ Customers on month-to-month contracts exhibit significantly higher churn risk co
 Recommendation:
 Introduce targeted incentives encouraging migration toward longer-term contracts, such as loyalty rewards or bundled service discounts.
 
-⸻
+
 
 Price Sensitivity
 
@@ -145,7 +145,7 @@ Customers who churn tend to have higher monthly charges, often around £15 more 
 Recommendation:
 Review pricing strategies and perceived value in high-charge segments, and test targeted plan optimisation rather than broad price reductions.
 
-⸻
+
 
 Critical Risk Window
 
@@ -154,7 +154,7 @@ The first 12 months of tenure represent the highest churn risk period, particula
 Recommendation:
 Strengthen onboarding and early-lifecycle engagement strategies, including proactive outreach and service guidance during the first year.
 
-⸻
+
 
 Operational Impact
 
@@ -170,7 +170,7 @@ The final model reduces 147 false alerts per scoring cycle while still identifyi
 
 This improves operational efficiency and helps retention teams focus on the customers most likely to churn.
 
-⸻
+
 
 Project Structure
 
@@ -180,7 +180,6 @@ Project files include:
 	•	Telco churn dataset
 	•	Documentation (README)
 
-⸻
 
 Tools & Technologies
 
@@ -194,5 +193,5 @@ Matplotlib
 Seaborn
 Jupyter Notebook
 
-⸻
+
 
